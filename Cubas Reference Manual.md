@@ -62,3 +62,37 @@ The overflow flag is set during arithmetic operations if the result has yielded 
 
 - Negative Flag
 The negative flag is set if the result of the last operation had bit 7 set to a one.
+
+## The Instruction Set
+The 6502 has a relatively basic set of instructions, many having similar functions (e.g. memory access, arithmetic, etc.).  The following sections list the complete set of 56 instructions in functional groups.
+
+### Load/Store Operations
+These instructions transfer a single byte between memory and one of the registers.  Load operations set the negative ([N]()) and zero ([Z]()) flags depending on the value of transferred.  Store operations do not affect the flag settings.
+
+| Instruction | Name | Flag Affected |
+| --- | --- | --- |
+| [LDA]() | Load Accumulator | [N, Z]() |
+| [LDX]() | Load X Register | [N, Z]() |
+| [LDY]() | Load Y Register | [N, Z]() |
+| [STA]() | Store Accumulator |  |
+| [STX]() | Store X Register |  |
+| [STY]() | Store Y Register |  |
+
+### Register Transfers
+The contents of the X and Y registers can be moved to or from the accumulator, setting the negative ([N]()) and zero ([Z]()) flags as appropriate.
+
+| Instruction | Name | Flag Affected |
+| --- | --- | --- |
+| [TAX]() | Transfer accumulator to X | [N, Z]() |
+| [TAY]() | Transfer accumulator to Y | [N, Z]() |
+| [TXA]() | Transfer X to accumulator | [N, Z]() |
+| [TYA]() | Transfer Y to accumulator | [N, Z]() |
+
+### Stack Operations
+The 6502 microprocessor supports a 256 byte stack fixed between memory locations $0100 and $01FF.  A special 8-bit register, S, is used to keep track of the next free byte of stack space.  Pushing a byte on ot the stack causes the value to be stored at the current free location (e.g. $0100, S) and then the stack pointer is post decremented. Pull operations reverse this procedure.
+
+The stack register can only be accessed by transferring its value to or from the X register.  Its value is automatically modified by pull/push instructions, subroutine calls and returns, interrupts and returns from interrupts.
+
+| Instruction | Name | Flag Affected |
+| --- | --- | --- |
+| [TSX]() | Transfer stack pointer to X | [N, Z]() |
